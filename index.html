@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mascotas</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="stylesIndex.css">
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-analytics.js"></script>
 </head>
 <body>
     <div class="container">
@@ -18,7 +22,7 @@
         <div class="right-side">
             <div class="login-container">
                 <h1>Bienvenido</h1>
-                <form action="dashboard.html" method="post">
+                <form action="dashboard.html" method="get">
                     <input type="text" name="username" placeholder="Usuario" required>
                     <input type="password" name="password" placeholder="Contraseña" required>
                     <button class="boton-Sesion" type="submit">Iniciar Sesión</button>
@@ -28,8 +32,8 @@
         </div>
     </div>
     <footer>
-        <p>&copy; DevKings</p>
+        <p>&copy; PETFI</p>
     </footer>
-    <script src="script.js"></script>
+    <script src="scriptLogin.js"></script>
 </body>
 </html>

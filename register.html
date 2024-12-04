@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro</title>
+    <link rel="stylesheet" href="stylesIndex.css">
+</head>
+<body>
+    <div class="container">
+        <div class="login-container">
+            <h1>Registro</h1>
+            <form id="register-form">
+                <input type="text" id="username" placeholder="Usuario" required>
+                <input type="password" id="password" placeholder="Contraseña" required>
+                <button type="submit">Registrarse</button>
+                <button type="button" onclick="location.href='index.html'">Volver</button>
+            </form>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; DevKings</p>
+    </footer>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBima3wGZ9KZ2DD6BED4rwxayW_2hWnpu8",
+            authDomain: "petfi-ad146.firebaseapp.com",
+            projectId: "petfi-ad146",
+            storageBucket: "petfi-ad146.firebasestorage.app",
+            messagingSenderId: "209794390077",
+            appId: "1:209794390077:web:4cb354ec99046606107254",
+            measurementId: "G-H7J28H377M"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Manejar el registro
+        document.addEventListener('DOMContentLoaded', () => {
+            const registerForm = document.getElementById('register-form');
+            registerForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+
+                try {
+                    // Registrar usuario en Firebase Authentication
+                    const userCredential = await createUserWithEmailAndPassword(auth, username, password);
+                    const user = userCredential.user;
+
+                    // Guardar información del usuario en Firestore
+                    await addDoc(collection(db, 'users'), {
+                        uid: user.uid,
+                        username: username,
+                        createdAt: new Date()
+                    });
+
+                    alert('Usuario registrado con éxito');
+                } catch (error) {
+                    console.error('Error en el registro:', error);
+                    alert('Error en el registro: ' + error.message);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
