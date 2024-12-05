@@ -20,5 +20,37 @@
     <footer>
         <p>&copy; DevKings</p>
     </footer>
+    <script>
+        document.getElementById('register-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevenir el envío normal del formulario
+        
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+        
+            fetch('http://localhost:3000/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: username,
+                    password: password
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Usuario registrado exitosamente');
+                    window.location.href = 'index.html'; // Redirigir al login
+                } else {
+                    alert('Error al registrar el usuario');
+                }
+            })
+            .catch(error => {
+                console.error('Error al registrar el usuario:', error);
+                alert('Hubo un error al registrar el usuario');
+            });
+        });
+    </script>        
 </body>
 </html>
