@@ -73,60 +73,6 @@
         <p>&copy; PETFI</p>
     </footer>
     <button id="logout-button" style="background-color: red; color: white; position: fixed; bottom: 10px; right: 10px;">Cerrar Sesión</button>
-    <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
-
-        // Your web app's Firebase configuration
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-        const firebaseConfig = {
-            apiKey: "AIzaSyBima3wGZ9KZ2DD6BED4rwxayW_2hWnpu8",
-            authDomain: "petfi-ad146.firebaseapp.com",
-            projectId: "petfi-ad146",
-            storageBucket: "petfi-ad146.firebasestorage.app",
-            messagingSenderId: "209794390077",
-            appId: "1:209794390077:web:4cb354ec99046606107254",
-            measurementId: "G-H7J28H377M"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-
-        // Obtener la información del usuario autenticado
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                // Usuario autenticado
-                document.getElementById('user-name').textContent = user.email;
-            } else {
-                // No hay usuario autenticado, redirigir al inicio de sesión
-                window.location.href = 'index.html';
-            }
-        });
-
-        // Funcionalidad de cierre de sesión
-        document.getElementById('logout-button').addEventListener('click', () => {
-            signOut(auth).then(() => {
-                // Redirigir al inicio de sesión
-                window.location.href = 'index.html';
-            }).catch((error) => {
-                console.error('Error al cerrar sesión:', error);
-            });
-        });
-
-        // Funcionalidad de activar cámara
-        document.getElementById('activate-camera').addEventListener('click', () => {
-            const cameraContainer = document.getElementById('camera-container');
-            const cameraFeed = document.getElementById('camera-feed');
-            const cameraUrl = 'http://192.168.189.212:8080/video';  // Reemplaza con la URL generada por IP Webcam
-
-            cameraFeed.src = cameraUrl;
-            cameraContainer.style.display = 'block';
-        });
-    </script>
     <script src="script.js"></script>
 </body>
 </html>
