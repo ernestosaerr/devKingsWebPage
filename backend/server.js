@@ -1,14 +1,14 @@
 const express = require('express');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
-const cors = require('cors'); // Agregar aquí la importación de CORS
+const cors = require('cors'); // Importación de CORS
 
 const app = express();
 const PORT = 3000;
 
 // Middleware
 app.use(bodyParser.json());
-app.use(cors()); // Agregar aquí la configuración de CORS
+app.use(cors()); // Configuración de CORS
 
 // Configuración de la base de datos
 const db = mysql.createConnection({
@@ -29,37 +29,43 @@ db.connect(err => {
 
 // Rutas
 app.get('/', (req, res) => {
-    res.send('¡El servidor está funcionando!');
+    res.json({ message: '¡El servidor está funcionando!' }); // Respuesta como JSON
 });
 
 app.post('/register', (req, res) => {
     const { username, password } = req.body;
 
+    if (!username || !password) {
+        return res.status(400).json({ success: false, message: 'Datos incompletos' });
+    }
+
     const query = 'INSERT INTO usuarios (username, password) VALUES (?, ?)';
     db.query(query, [username, password], (err, result) => {
         if (err) {
             console.error('Error al registrar usuario:', err);
-            res.status(500).send('Error al registrar usuario');
-            return;
+            return res.status(500).json({ success: false, message: 'Error al registrar usuario' });
         }
-        res.status(200).send('Usuario registrado exitosamente');
+        res.status(200).json({ success: true, message: 'Usuario registrado exitosamente' });
     });
 });
 
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
 
+    if (!username || !password) {
+        return res.status(400).json({ success: false, message: 'Datos incompletos' });
+    }
+
     const query = 'SELECT * FROM usuarios WHERE username = ? AND password = ?';
     db.query(query, [username, password], (err, results) => {
         if (err) {
             console.error('Error al iniciar sesión:', err);
-            res.status(500).send('Error al iniciar sesión');
-            return;
+            return res.status(500).json({ success: false, message: 'Error al iniciar sesión' });
         }
         if (results.length > 0) {
-            res.status(200).send('Inicio de sesión exitoso');
+            res.status(200).json({ success: true, message: 'Inicio de sesión exitoso' });
         } else {
-            res.status(401).send('Usuario o contraseña incorrectos');
+            res.status(401).json({ success: false, message: 'Usuario o contraseña incorrectos' });
         }
     });
 });
